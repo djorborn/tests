@@ -1,0 +1,21 @@
+extends layout
+block login
+  .section
+    .container
+      form(action="/login" method="post")
+        .title Login
+        .subtitle todo
+        .field
+          
+          label.label(for="username") Username
+          .control
+            input.input(name="username" placeholder="Username")
+          label.label(for="password") Password
+          .control
+            input.input(name="password" placeholder="Password")
+        .field.is-grounped
+          .control
+            a.button(href="/register") Register
+          .control
+            button.button(type="submit") Login
+    h3=msg
