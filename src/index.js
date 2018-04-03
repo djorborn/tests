@@ -1,3 +1,19 @@
-var w = 'World!'
+import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 
-document.getElementById('app').innerHTML = `<h1 class="button title is-info">Hello ${w}</h1>`
+class App extends React.Component {
+  render () {
+    return (
+      <div className="section">
+        <div className="container">
+          <div className="title">Hello React!</div>
+        </div>
+      </div>
+    )
+  }
+}
+
+ReactDOM.render(
+  <App/>,
+  document.getElementById('app')
+)
