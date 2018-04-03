@@ -1,19 +1,7 @@
-import React, { Component } from 'react'
-import ReactDOM from 'react-dom'
+import Vue from 'vue'
+import App from './App.vue'
 
-class App extends React.Component {
-  render () {
-    return (
-      <div className="section">
-        <div className="container">
-          <div className="title">Hello React!</div>
-        </div>
-      </div>
-    )
-  }
-}
-
-ReactDOM.render(
-  <App/>,
-  document.getElementById('app')
-)
+new Vue({
+  el: '#app',
+  render: h => h(App)
+})
