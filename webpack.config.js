@@ -2,12 +2,12 @@ const path = require('path')
 
 module.exports = {
   entry: {
-    bundle: ['./src/index.js'],
-    style: './src/mystyle.scss'
+    bundle: ['./src/index.js']
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -23,16 +23,7 @@ module.exports = {
         test: /\.scss$/,
         use: [
           {
-            loader: 'file-loader',
-            options: {
-              name: 'mystyle.css'
-            }
-          },
-          {
-            loader: 'extract-loader',
-            options: {
-              publicPath: '/'
-            }
+            loader: 'vue-style-loader'
           },
           {
             loader: 'css-loader'
