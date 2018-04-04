@@ -7,15 +7,18 @@
     "start": "nodemon index.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "bcrypt": "^1.0.3",
     "bulma": "^0.6.2",
     "connect-redis": "^3.3.3",
     "css-loader": "^0.28.11",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "express-sass-middleware": "^1.1.0",
     "express-session": "^1.15.6",
     "extract-loader": "^2.0.1",
     "file-loader": "^1.1.11",
@@ -38,6 +41,7 @@
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-middleware": "^3.1.0",
-    "webpack-dev-server": "^3.1.1"
+    "webpack-dev-server": "^3.1.1",
+    "webpack-hot-middleware": "^2.21.2"
   }
 }

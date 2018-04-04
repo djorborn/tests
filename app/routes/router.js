@@ -1,6 +1,20 @@
 const router = require('express').Router()
 const passport = require('passport')
+const login = require('./login')
+const register = require('./register')
+const todoRoute = require('./todoRoute')
 const User = require('../modules/User')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
+
+router.get('/login', login)
+router.post('/login', login)
+
+router.get('/register', register)
+router.post('/register', register)
+
+router.use('/todo', todoRoute)
+
 
 router.get('/', (req, res) => {
   if (!req.user) {
@@ -12,37 +26,18 @@ router.get('/', (req, res) => {
   }
 })
 
-router.get('/login', (req, res) => {
-
-  res.render('login', {
-    msg: (req.query.msg ? req.query.msg : '')
+router.post('/get-lists', (req, res) => {
+  User.findById(req.user.id, (err, user) => {
+    if (err) throw err
+    if (!user) { res.redirect('/?error') }
+    console.log(user);
+    res.json(user)
   })
 })
 
-router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login?msg=Wrong Username Or Password'
-  })
-)
-
-router.get('/register', (req, res) => {
-  res.render('register')
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
 })
-
-router.post(
-  '/register',
-  (req, res) => {
-    console.log('New User made');
-    const user = new User({
-      username: 'de',
-      password: 'e',
-      name: 'Daniel',
-      email: 'djorborn@gmail.com'
-    })
-    user.save(()=> {res.redirect('/login?msg=New User Created')})
-  }
-)
-
 
 module.exports = router

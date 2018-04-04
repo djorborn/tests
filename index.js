@@ -1,11 +1,13 @@
 const path = require('path')
 const express = require('express')
 const app = express()
+const sass = require('express-sass-middleware')
 const session = require('express-session')
 const client = require('redis').createClient()
 const RedisStore = require('connect-redis')(session)
 const User = require('./app/modules/User')
 const router = require('./app/routes/router')
+const bcrypt = require('bcrypt')
 
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
@@ -16,11 +18,16 @@ passport.use(
       User.findOne({username: username}, (err, user) => {
         if (err) throw err
         if (!user) {
+          console.log('Wrong username');
           return done(null, false, {message: 'Wrong Username'})
         }
-        if (password !== user.password) {
+        if (!bcrypt.compareSync(password, user.password)) {
+          console.log('wrong password');
+          console.log(bcrypt.compareSync(password, user.password));
+          console.log(user.password);
           return done(null, false, {message: 'Wrong Password'})
         }
+        console.log('made it');
         return done(null, user)
       })
     }
@@ -34,7 +41,13 @@ passport.deserializeUser(function (id, done){
     done(null, user)
   })
 })
-
+app.get('/mystyle.css', sass({
+  file: './app/public/style/mystyle.scss',
+  watch: true,
+  precompile: true,
+  outputStyle: 'compressed',
+  includePaths: [path.join(__dirname, 'node_modules')]
+}))
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'app/views'))
 

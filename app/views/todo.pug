@@ -1,0 +1,21 @@
+extends layout
+block todo
+  .section
+    .container
+      .field
+        .title Todo
+      .field
+        .panel#todo
+          input.input.panel-heading(v-model="listTitle")
+          .panel-block
+            form(v-on:submit.prevent="addItem").field.has-addons
+              .control.has-icons-left
+                input.input(v-model="newItem")
+                span.icon.is-left: i.fa edit
+              .control
+                button.button(type="submit")
+                  span.icon: i.fa plus
+          .panel-block(v-for="item in items" v-bind:key="item.id") {{item.txt}}
+  script(src="js/vue.js")
+  script(src="js/axios.min.js")
+  script(src="js/todo.client.js")

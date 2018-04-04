@@ -1,3 +1,35 @@
 extends layout
 block home
-  h1=profile
+  include nav
+  .section
+    .container
+      .title todo
+      .subtitle Welcome #{profile.name}
+      .field.is-grouped
+        .control
+          .subtitle Your List
+        .control
+          a.button.is-success(href='/todo/new-list') New List
+      .field#dash
+        table.table
+          thead
+            tr
+              th No.
+              th Title
+              th Items
+              th Created
+          tfoot
+            tr
+              th No.
+              th Title
+              th Items
+              th Created
+          tbody
+            tr(v-for="list in lists"
+               v-bind:key="list._id")
+              td {{list._id}}
+              td {{list.title}}
+              td {{list.items.length}}
+              td {{list.date}}
+  script(src="js/axios.min.js")
+  script(src="js/dash.client.js")
