@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Pug Vue Play
+        script(src="js/vue.js")
+    body
+        h1 Pug Vuejs Play
+        h3 I want to see how to better intigrate vuejs with pug.
+
+        p I will send data from the server to pug and try to attach that to a vue data variable.
+        ol
+            li: p I sent an stringyfied object to pug from server in variable stuff. 
+            li: p Then I made a vue data variable and passed it stuff by json parse'n it after replacing &quot; w/ "
+
+        fieldset#app
+            legend App
+            p {{stuff}}
+            ul(v-for="i in stuff")
+                li {{i}}
+
+    script.
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                stuff: JSON.parse('#{stuff}'.replace(/&quot;/g, '"'))
+            }
+        })

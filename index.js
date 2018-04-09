@@ -1,73 +1,25 @@
-const path = require('path')
 const express = require('express')
 const app = express()
-const sass = require('express-sass-middleware')
-const session = require('express-session')
-const client = require('redis').createClient()
-const RedisStore = require('connect-redis')(session)
-const User = require('./app/modules/User')
-const router = require('./app/routes/router')
-const bcrypt = require('bcrypt')
 
-const passport = require('passport')
-const LocalStrategy = require('passport-local').Strategy
+app.set('view engine', 'pug')
+app.set('views', require('path').join(__dirname, 'app/views'))
+app.use(express.static(__dirname + '/app/public'))
 
-passport.use(
-  new LocalStrategy(
-    function (username, password, done) {
-      User.findOne({username: username}, (err, user) => {
-        if (err) throw err
-        if (!user) {
-          console.log('Wrong username');
-          return done(null, false, {message: 'Wrong Username'})
-        }
-        if (!bcrypt.compareSync(password, user.password)) {
-          console.log('wrong password');
-          console.log(bcrypt.compareSync(password, user.password));
-          console.log(user.password);
-          return done(null, false, {message: 'Wrong Password'})
-        }
-        console.log('made it');
-        return done(null, user)
-      })
-    }
-  )
-)
-passport.serializeUser(function (user, done){
-  done(null, user.id)
-})
-passport.deserializeUser(function (id, done){
-  User.findOne({_id: id}, (err, user) => {
-    done(null, user)
+app.get('/', (req, res) => {
+  res.render('vue', {
+    stuff: JSON.stringify({
+      one: 'One',
+      thing: 'That One Thing',
+      title: 'Pugjs Vuejs Play',
+      items: [
+        'One',
+        'Two',
+        'Three'
+      ]
+    })
   })
 })
-app.get('/mystyle.css', sass({
-  file: './app/public/style/mystyle.scss',
-  watch: true,
-  precompile: true,
-  outputStyle: 'compressed',
-  includePaths: [path.join(__dirname, 'node_modules')]
-}))
-app.set('view engine', 'pug')
-app.set('views', path.join(__dirname, 'app/views'))
 
-app.use(
-  express.json(),
-  express.urlencoded({extended: false}),
-  express.static(path.join(__dirname, 'app/public')),
-  session({
-    secret: 'Meow',
-    store: new RedisStore({client: client}),
-    resave: false,
-    saveUninitialized: false
-  }),
-  passport.initialize(),
-  passport.session(),
-  router
-)
-  .listen(
-    3000,
-    () => {
-      console.log('Server Running @ http://localhost:3000');
-    }
-  )
+app.listen(3000, () => {
+  console.log('Server running @ localhost:3000')
+})
