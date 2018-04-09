@@ -13,11 +13,12 @@ var vm = new Vue({
         id: this.id
       }).then(
         (res) => {
+          var count = this.items.length
           var item = {
-            id: res.data._id,
-            txt: this.newItem
+            id: count++,
+            item: this.newItem
           }
-          items.push(item)
+          this.items.push(item)
           this.newItem = ''
         }
       )
@@ -38,7 +39,7 @@ var vm = new Vue({
         (res) => {
           this.listTitle = res.data.title
           this.items = res.data.items
-          console.log(this.items[0]);
+          console.log(res);
         }
       )
     }

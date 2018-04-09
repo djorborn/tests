@@ -8,15 +8,18 @@ todoRoute.get('/', (req, res) => {
 
 todoRoute.post('/', (req, res) => {
   // Get Data
-  Todo.findById(req.query.id, (err, todo) => {
-    console.log(todo);
-    res.json(todo)
-  })
+  Todo.findOne({_id: req.query.id}).exec(
+    function (err, todo) {
+      res.send(todo)
+      console.log(todo);
+    }
+  )
 })
 
 todoRoute.get('/new-list', (req, res) => {
   var todo = new Todo({
-    author: req.user.id
+    author: req.user.id,
+    title: "temp title"
   })
   todo.save(
     () => {
@@ -26,17 +29,20 @@ todoRoute.get('/new-list', (req, res) => {
 })
 
 todoRoute.post('/update-title', (req, res) => {
-
+  Todo.findByIdAndUpdate(req.body.id, {title: req.body.title}, (err, todo) => {
+    console.log(todo);
+    res.sendStatus(200)
+  })
 })
 
 todoRoute.post('/add-item', (req, res) => {
   console.log(req.body.id);
-  var item = new Item({
-    todo: req.body.id,
-    item: req.body.item
-  })
-  item.save(() => {
-    res.send(item)
+  Todo.findById(req.body.id, (err, todo) => {
+    var count = todo.items.length
+    todo.items.push({no: count++, item: req.body.item})
+    todo.save(() => {
+      res.send(todo)
+    })
   })
 })
 

@@ -1,12 +1,14 @@
 var vm = new Vue({
   el:'#dash',
   data: {
-    lists: []
+    lists: 'hi',
+    hi: 'hi'
   },
   methods: {
     getLists: function () {
       axios.post('/get-lists')
       .then(function (res) {
+        console.log(res.data[0]);
         this.lists = res.data
       })
     }

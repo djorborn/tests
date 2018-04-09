@@ -4,6 +4,7 @@ const login = require('./login')
 const register = require('./register')
 const todoRoute = require('./todoRoute')
 const User = require('../modules/User')
+const Todo = require('../modules/Todo')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 
@@ -27,11 +28,11 @@ router.get('/', (req, res) => {
 })
 
 router.post('/get-lists', (req, res) => {
-  User.findById(req.user.id, (err, user) => {
+  Todo.find({author: req.user.id}, (err, todos) => {
     if (err) throw err
-    if (!user) { res.redirect('/?error') }
-    console.log(user);
-    res.json(user)
+    if (!todos) { res.redirect('/?error') }
+    console.log(todos);
+    res.json(todos)
   })
 })
 

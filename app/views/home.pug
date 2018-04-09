@@ -25,11 +25,10 @@ block home
               th Items
               th Created
           tbody
-            tr(v-for="list in lists"
-               v-bind:key="list._id")
-              td {{list._id}}
-              td {{list.title}}
-              td {{list.items.length}}
-              td {{list.date}}
+        p {{hi}}
+        ul(v-for="i in lists")
+          li {{i.items}}
+          li {{i.title}}
   script(src="js/axios.min.js")
+  script(src="js/vue.js")
   script(src="js/dash.client.js")

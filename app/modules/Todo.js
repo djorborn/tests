@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const todoSchema = new Schema({
   author: {type: Schema.Types.ObjectId, ref: 'User'},
   title: String,
-  items: [{type: Schema.Types.ObjectId, ref: 'Item'}],
+  items: Array,
   date: Date
 })
 

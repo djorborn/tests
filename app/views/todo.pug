@@ -6,7 +6,7 @@ block todo
         .title Todo
       .field
         .panel#todo
-          input.input.panel-heading(v-model="listTitle")
+          input.input.panel-heading(v-model="listTitle" v-on:blur="updateTitle")
           .panel-block
             form(v-on:submit.prevent="addItem").field.has-addons
               .control.has-icons-left
@@ -15,7 +15,7 @@ block todo
               .control
                 button.button(type="submit")
                   span.icon: i.fa plus
-          .panel-block(v-for="item in items" v-bind:key="item.id") {{item.txt}}
+          .panel-block(v-for="item in items" v-bind:key="item.id") {{item.item}}
   script(src="js/vue.js")
   script(src="js/axios.min.js")
   script(src="js/todo.client.js")
